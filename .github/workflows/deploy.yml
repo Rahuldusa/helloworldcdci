@@ -1,4 +1,4 @@
-name: Deploy HTML to Hostinger
+name: React Deploy to AlmaLinux Server
 
 on:
   push:
@@ -10,20 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
+      # 2️⃣ Setup Node
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # 3️⃣ Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4️⃣ Build React app
+      - name: Build React App
+        run: npm run build
+
+      # 5️⃣ Setup SSH
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | sed 's/\r$//' > ~/.ssh/github_actions_key
-          chmod 600 ~/.ssh/github_actions_key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Test SSH
+      # 6️⃣ Deploy using rsync (recommended)
+      - name: Deploy to Server
         run: |
-          ssh -o BatchMode=yes root@${{ secrets.SERVER_IP }} "echo SSH CONNECTED"
+          rsync -avz --delete ./dist/ \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/html/
 
-      - name: Deploy
+      # 7️⃣ Restart Nginx
+      - name: Restart Nginx
         run: |
-          rsync -avz --delete ./ root@${{ secrets.SERVER_IP }}:/var/www/html/
-
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "systemctl restart nginx"
