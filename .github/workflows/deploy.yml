@@ -1,4 +1,4 @@
-name: React Deploy to AlmaLinux Server
+name: React Deploy
 
 on:
   push:
@@ -17,25 +17,24 @@ jobs:
           node-version: 18
 
       - run: npm ci
-
       - run: npm run build
 
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | sed 's/\r$//' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy to Server
+      - name: Deploy
         run: |
           rsync -avz --delete \
           -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
           ./dist/ \
-          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/html/
+          root@${{ secrets.SERVER_IP }}:/var/www/html/
 
       - name: Restart Nginx
         run: |
           ssh -i ~/.ssh/id_ed25519 \
-          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} \
+          root@${{ secrets.SERVER_IP }} \
           "systemctl restart nginx"
