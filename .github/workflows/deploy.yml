@@ -22,19 +22,26 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | sed 's/\r$//' > ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy
+      - name: Test SSH
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+          -o StrictHostKeyChecking=no \
+          deploy@${{ secrets.SERVER_IP }} \
+          "echo SSH SUCCESS"
+
+      - name: Deploy Files
         run: |
           rsync -avz --delete \
           -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
-          ./dist/ \
-          root@${{ secrets.SERVER_IP }}:/var/www/html/
+          dist/ \
+          deploy@${{ secrets.SERVER_IP }}:/var/www/html/
 
       - name: Restart Nginx
         run: |
           ssh -i ~/.ssh/id_ed25519 \
-          root@${{ secrets.SERVER_IP }} \
-          "systemctl restart nginx"
+          deploy@${{ secrets.SERVER_IP }} \
+          "sudo systemctl restart nginx"
