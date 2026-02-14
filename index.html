@@ -3,71 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rohit Sharma - Pull Shot King</title>
+  <title>Rahulkumar Dusa - Pull Shot King</title>
 
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #e6f0ff, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
       text-align: center;
     }
 
     header {
-      background: #0b3d91;
-      color: white;
-      padding: 25px;
+      padding: 40px;
+      background: linear-gradient(to right, #141e30, #243b55);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    header h1 {
+      font-size: 40px;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #ffd700;
+      margin-top: 10px;
     }
 
     .container {
-      padding: 40px;
-    }
-
-    img {
-      width: 320px;
-      border-radius: 15px;
-      margin-top: 25px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      padding: 50px 20px;
     }
 
     .card {
-      background: white;
-      padding: 25px;
-      margin: 25px auto;
-      width: 60%;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      margin: 30px auto;
+      width: 70%;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card h2 {
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
+
+    .images-section img {
+      width: 300px;
+      margin: 20px;
       border-radius: 15px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      transition: 0.3s;
     }
 
-    .video-section {
-      margin-top: 50px;
+    .images-section img:hover {
+      transform: scale(1.05);
     }
 
-    video {
+    .video-section video {
       width: 700px;
-      max-width: 90%;
-      border-radius: 15px;
+      max-width: 95%;
       margin-top: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
     }
 
     footer {
-      background: #222;
-      color: white;
-      padding: 20px;
       margin-top: 60px;
+      padding: 25px;
+      background: #111;
+      font-size: 14px;
     }
 
     @media (max-width: 768px) {
       .card {
-        width: 90%;
+        width: 95%;
       }
 
-      video {
-        width: 100%;
+      .images-section img {
+        width: 90%;
       }
     }
+
   </style>
 </head>
 
@@ -75,50 +101,72 @@
 
   <header>
     <h1>Rahulkumar Dusa</h1>
-    <p>🔥 The Pull Shot King 🔥</p>
+    <p>🔥 The Pull Shot King | Telangana T20 Star | Match Winner 🔥</p>
   </header>
 
   <div class="container">
 
+    <!-- About Section -->
     <div class="card">
-      <h2>About</h2>
+      <h2>🏏 About The Player</h2>
       <p>
-  A dominant performer in Telangana T20 matches, he is widely recognized as one of 
-  the best openers in the old Karimnagar District. Known for his fearless batting, 
-  aggressive stroke play, and strong leadership qualities, he has led his team to 
-  multiple tournament victories as a captain. His consistency at the top order and 
-  match-winning performances have made him a respected name in district-level cricket.
-</p>
+        Rahulkumar Dusa is one of the most explosive and consistent openers in Telangana T20 cricket.
+        Known for his fearless approach and attacking mindset, he dominates bowlers from the very first over.
+      </p>
+      <p>
+        With exceptional timing, powerful pull shots, and aggressive stroke play,
+        he has built a strong reputation in the old Karimnagar District cricket circles.
+        His ability to anchor innings and accelerate when required makes him a complete T20 batsman.
+      </p>
+      <p>
+        As a captain, he has led his team to multiple tournament victories,
+        inspiring young cricketers with his leadership, discipline, and dedication.
+      </p>
     </div>
 
-    <!-- Image Section -->
-    <img src="images/winner.jpeg" alt="Winner Trophy">
-
+    <!-- Achievements -->
     <div class="card">
-      <h2>Achievements</h2>
+      <h2>🏆 Career Highlights</h2>
       <ul style="text-align:left;">
-        <li>🏆 Multiple IPL Titles</li>
-        <li>🏏 Highest Individual ODI Score (264)</li>
-        <li>🇮🇳 Captain of Indian Cricket Team</li>
-        <li>🔥 Famous for his Pull Shot</li>
+        <li>🔥 Multiple District-Level Tournament Wins</li>
+        <li>🏏 Explosive Opening Batsman in Telangana T20</li>
+        <li>💪 Known for Powerful Pull & Hook Shots</li>
+        <li>🎯 Match Winning Performances Under Pressure</li>
+        <li>👑 Successful Team Captain</li>
+        <li>⚡ Fast Scoring Strike Rate in Powerplay Overs</li>
       </ul>
     </div>
 
-    <!-- Video Section -->
-    <div class="video-section">
-      <h2>🏏 Match Highlights video</h2>
+    <!-- Image Section -->
+    <div class="card images-section">
+      <h2>📸 Tournament Moments</h2>
 
+      <img src="images/winner.jpeg" alt="Winning Moment">
+      <img src="images/action1.jpeg" alt="Batting Action">
+      <img src="images/team.jpeg" alt="Team Celebration">
+
+    </div>
+
+    <!-- Video Section 1 -->
+    <div class="card video-section">
+      <h2>🎥 Match Highlights</h2>
       <video controls>
-        <!-- Because Rahul.mp4 is inside public folder -->
         <source src="/Rahul.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Video Section 2 -->
+    <div class="card video-section">
+      <h2>🔥 Pull Shot Special Compilation</h2>
+      <video controls>
+        <source src="/pullshot.mp4" type="video/mp4">
       </video>
     </div>
 
   </div>
 
   <footer>
-    © 2026 Cricket Fan Page
+    © 2026 Rahulkumar Dusa | District Cricket Star | All Rights Reserved
   </footer>
 
 </body>
