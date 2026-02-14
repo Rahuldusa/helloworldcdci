@@ -10,29 +10,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      # 2️⃣ Setup Node
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - run: npm ci
-      - run: npm run build
+      # 3️⃣ Install Dependencies
+      - name: Install Dependencies
+        run: npm ci
 
+      # 4️⃣ Build Project
+      - name: Build Project
+        run: npm run build
+
+      # 5️⃣ Setup SSH
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
+      # 6️⃣ Test SSH Connection
       - name: Test SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 \
           -o StrictHostKeyChecking=no \
           deploy@${{ secrets.SERVER_IP }} \
-          "echo SSH SUCCESS"
+          "echo SSH CONNECTION SUCCESS"
 
+      # 7️⃣ Deploy dist folder
       - name: Deploy Files
         run: |
           rsync -avz --delete \
@@ -40,8 +52,10 @@ jobs:
           dist/ \
           deploy@${{ secrets.SERVER_IP }}:/var/www/html/
 
+      # 8️⃣ Restart Nginx
       - name: Restart Nginx
         run: |
           ssh -i ~/.ssh/id_ed25519 \
+          -o StrictHostKeyChecking=no \
           deploy@${{ secrets.SERVER_IP }} \
           "sudo systemctl restart nginx"
