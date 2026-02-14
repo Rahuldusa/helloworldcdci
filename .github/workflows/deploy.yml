@@ -1,4 +1,4 @@
-name: Deploy Static Build
+name: React Deploy
 
 on:
   push:
@@ -10,9 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Deploy dist folder to VPS
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Setup SSH
         run: |
-          rsync -avz --delete dist/ root@YOUR_SERVER_IP:/var/www/html/
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy Files
+        run: |
+          rsync -avz --delete \
+          -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
+          dist/ \
+          deploy@${{ secrets.SERVER_IP }}:/var/www/html/
+
+      - name: Restart Nginx
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+          -o StrictHostKeyChecking=no \
+          deploy@${{ secrets.SERVER_IP }} \
+          "sudo systemctl restart nginx"
