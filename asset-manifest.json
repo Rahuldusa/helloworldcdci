@@ -1,15 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.54b5364e.css",
-    "main.js": "/static/js/main.0d38e1a0.js",
-    "static/js/453.1bca1ef8.chunk.js": "/static/js/453.1bca1ef8.chunk.js",
+    "main.css": "/static/css/main.445dd3d1.css",
+    "main.js": "/static/js/main.2afd0c71.js",
+    "static/js/453.e2f10f26.chunk.js": "/static/js/453.e2f10f26.chunk.js",
+    "static/media/hvac-logo-new.jpg": "/static/media/hvac-logo-new.5555d87eb5074a2073de.jpg",
+    "static/media/AIRO.png": "/static/media/AIRO.e373e52d3e4973abfc0b.png",
     "index.html": "/index.html",
-    "main.54b5364e.css.map": "/static/css/main.54b5364e.css.map",
-    "main.0d38e1a0.js.map": "/static/js/main.0d38e1a0.js.map",
-    "453.1bca1ef8.chunk.js.map": "/static/js/453.1bca1ef8.chunk.js.map"
+    "main.445dd3d1.css.map": "/static/css/main.445dd3d1.css.map",
+    "main.2afd0c71.js.map": "/static/js/main.2afd0c71.js.map",
+    "453.e2f10f26.chunk.js.map": "/static/js/453.e2f10f26.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.54b5364e.css",
-    "static/js/main.0d38e1a0.js"
+    "static/css/main.445dd3d1.css",
+    "static/js/main.2afd0c71.js"
   ]
 }
