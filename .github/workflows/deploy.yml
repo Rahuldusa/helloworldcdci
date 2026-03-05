@@ -1,4 +1,4 @@
-name: Static Deploy
+name: Django CI/CD Deploy
 
 on:
   push:
@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
 
       - name: Setup SSH
         run: |
@@ -19,16 +22,35 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy Files
+
+      - name: Deploy Project Files
         run: |
           rsync -avz --delete \
           -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
           ./ \
-          deploy@${{ secrets.SERVER_IP }}:/var/www/html/
+          root@${{ secrets.SERVER_IP }}:/var/www/djangoapp/
 
-      - name: Restart Nginx
+
+      - name: Install Dependencies and Restart Django
         run: |
-          ssh -i ~/.ssh/id_ed25519 \
-          -o StrictHostKeyChecking=no \
-          deploy@${{ secrets.SERVER_IP }} \
-          "sudo systemctl restart nginx"
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
+
+          cd /var/www/djangoapp
+
+          if [ ! -d "venv" ]; then
+            python3 -m venv venv
+          fi
+
+          source venv/bin/activate
+
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+          python manage.py migrate
+          python manage.py collectstatic --noinput
+
+          pkill -f "runserver 8080" || true
+
+          nohup python manage.py runserver 0.0.0.0:8080 &
+
+          EOF
